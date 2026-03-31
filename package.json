@@ -3,13 +3,22 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
+    "dev": "tinacms dev -c \"astro dev\"",
+    "start": "tinacms dev -c \"astro dev\"",
+    "build": "tinacms build && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "tina:build": "tinacms build"
   },
   "dependencies": {
-    "astro": "^4.0.0"
+    "astro": "^4.0.0",
+    "tinacms": "^2.0.0",
+    "@tinacms/datalayer": "^1.0.0",
+    "tinacms-gitprovider-github": "^1.0.0",
+    "@astrojs/cloudflare": "^10.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }
