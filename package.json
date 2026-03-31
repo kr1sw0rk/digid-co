@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "astro": "^4.0.0",
-    "tinacms": "^2.0.0",
-    "@tinacms/datalayer": "^1.0.0",
-    "tinacms-gitprovider-github": "^1.0.0",
+    "tinacms": "^3.0.0",
+    "@tinacms/datalayer": "^2.0.0",
+    "tinacms-gitprovider-github": "^4.0.0",
     "@astrojs/cloudflare": "^10.0.0"
   },
   "devDependencies": {
-    "@tinacms/cli": "^1.6.0",
+    "@tinacms/cli": "^2.0.0",
     "@cloudflare/workers-types": "^4.0.0",
     "typescript": "^5.0.0"
   }
