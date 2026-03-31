@@ -1,0 +1,7 @@
+name = "digid-co"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "TINA_D1"
+database_name = "digid-co-tina"
+database_id = "a502e3fc-86de-41fa-a3d5-97f4e8facc7f"
