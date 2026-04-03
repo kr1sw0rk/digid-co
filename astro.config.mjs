@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 import keystatic from '@keystatic/astro';
 
 export default defineConfig({
-  output: 'hybrid',
+  output: 'static',
   adapter: cloudflare(),
   site: 'https://digid.co',
   integrations: [react(), keystatic()],
