@@ -1,4 +1,5 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
+import KeystaticMark from './src/components/KeystaticMark';
 
 export default config({
   storage: {
@@ -7,9 +8,13 @@ export default config({
       owner: 'kr1sw0rk',
       name: 'digid-co',
     },
+    branchPrefix: 'staging',
   },
   ui: {
-    brand: { name: 'digid.co' },
+    brand: {
+      name: 'digid.co',
+      mark: KeystaticMark,
+    },
   },
   singletons: {
     homepage: singleton({
