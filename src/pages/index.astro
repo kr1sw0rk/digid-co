@@ -1,21 +1,23 @@
 ---
 // digid.co — Management Consulting for Tech
-import { client } from "../../tina/__generated__/client";
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
 
 let tagline = "Management Consulting for Tech";
 let contactEmail = "hi@digid.co";
 let footerText =
-  "© 2026 GGKS Assoc. OÜ · digid.co is a trading name of GGKS Assoc. OÜ, a private limited company registered in Estonia · All rights reserved";
+  "© 2026 GGKS Assoc. OÜ · digid.co is a trading name of GGKS Assoc. OÜ, a private limited company registered in Estonia · All rights reserved";
 
 try {
-  const data = await client.queries.page({ relativePath: "index.md" });
-  if (data?.data?.page) {
-    tagline = data.data.page.tagline ?? tagline;
-    contactEmail = data.data.page.contactEmail ?? contactEmail;
-    footerText = data.data.page.footerText ?? footerText;
+  const reader = createReader(process.cwd(), keystaticConfig);
+  const homepage = await reader.singletons.homepage.read();
+  if (homepage) {
+    tagline = homepage.tagline || tagline;
+    contactEmail = homepage.contactEmail || contactEmail;
+    footerText = homepage.footerText || footerText;
   }
 } catch {
-  // Fall back to defaults if Tina data is unavailable at build time
+  // Fall back to defaults if content unavailable at build time
 }
 ---
 <!DOCTYPE html>
@@ -23,7 +25,7 @@ try {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={} />
+    <meta name="description" content={tagline} />
     <title>digid.co</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -62,7 +64,6 @@ try {
         flex-direction: column;
       }
 
-      /* ── Hero ── */
       .hero {
         flex: 1;
         display: flex;
@@ -112,7 +113,6 @@ try {
         opacity: 1;
       }
 
-      /* ── Footer ── */
       footer {
         width: 100%;
         padding: 1.25rem 2rem;
@@ -132,7 +132,6 @@ try {
         max-width: 780px;
       }
 
-      /* ── Fade-in animation ── */
       @keyframes fadeUp {
         from { opacity: 0; transform: translateY(16px); }
         to   { opacity: 1; transform: translateY(0);    }
@@ -142,7 +141,6 @@ try {
       .hero__tagline  { animation: fadeUp 0.8s ease both; animation-delay: 0.3s; }
       .hero__contact  { animation: fadeUp 0.8s ease both; animation-delay: 0.5s; }
 
-      /* ── Responsive tweaks ── */
       @media (max-width: 480px) {
         .hero__logo { width: 140px; }
         .hero__tagline { letter-spacing: 0.14em; }
@@ -163,7 +161,7 @@ try {
       <p class="hero__tagline">{tagline}</p>
 
       <p class="hero__contact">
-        <a href={}>{contactEmail}</a>
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
       </p>
     </main>
 
