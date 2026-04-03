@@ -9,12 +9,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.0.0",
+    "astro": "^5.7.0",
     "@keystatic/core": "^0.5.0",
     "@keystatic/astro": "^5.0.0",
-    "@astrojs/cloudflare": "^13.0.0"
+    "@astrojs/cloudflare": "^12.6.0",
+    "@astrojs/react": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@cloudflare/workers-types": "^4.0.0",
     "typescript": "^5.0.0"
   }
