@@ -1,0 +1,171 @@
+---
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = 'digid.co', description = 'digid.co' } = Astro.props;
+
+let navItems: { label: string; url: string }[] = [];
+let footerText = '© 2026 digid.co';
+
+try {
+  const reader = createReader(process.cwd(), keystaticConfig);
+  const [nav, footer] = await Promise.all([
+    reader.singletons.navigation.read(),
+    reader.singletons.footer.read(),
+  ]);
+  if (nav?.items) navItems = nav.items as { label: string; url: string }[];
+  if (footer?.text) footerText = footer.text;
+} catch {
+  // fall back to defaults
+}
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title === 'digid.co' ? 'digid.co' : `${title} · digid.co`}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --color-bg:      #ffffff;
+        --color-primary: #231f20;
+        --color-muted:   #6b6869;
+        --color-border:  #e8e7e7;
+        --font-family:   'Inter', system-ui, sans-serif;
+      }
+
+      html {
+        background: var(--color-bg);
+        color: var(--color-primary);
+        font-family: var(--font-family);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ── Navigation ── */
+      .site-nav {
+        width: 100%;
+        padding: 1.25rem 2rem;
+        border-bottom: 1px solid var(--color-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+      }
+
+      .site-nav__logo {
+        display: block;
+        height: 24px;
+        width: auto;
+        opacity: 0.9;
+        flex-shrink: 0;
+      }
+
+      .site-nav__links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .site-nav__links a {
+        font-size: 0.8rem;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        text-decoration: none;
+        opacity: 0.55;
+        transition: opacity 0.2s ease;
+      }
+
+      .site-nav__links a:hover {
+        opacity: 1;
+      }
+
+      /* ── Page content area ── */
+      .site-content {
+        flex: 1;
+      }
+
+      /* ── Footer ── */
+      site-footer,
+      footer.site-footer {
+        width: 100%;
+      }
+
+      footer {
+        width: 100%;
+        padding: 1.25rem 2rem;
+        border-top: 1px solid var(--color-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .footer__text {
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: var(--color-muted);
+        letter-spacing: 0.02em;
+        line-height: 1.6;
+        max-width: 780px;
+      }
+
+      @media (max-width: 600px) {
+        .site-nav { padding: 1rem 1.25rem; }
+        .site-nav__links { gap: 1.25rem; }
+      }
+    </style>
+  </head>
+  <body>
+
+    {navItems.length > 0 && (
+      <nav class="site-nav">
+        <a href="/" aria-label="digid.co home">
+          <img src="/logo.png" alt="digid" class="site-nav__logo" height="24" />
+        </a>
+        <ul class="site-nav__links">
+          {navItems.map((item) => (
+            <li><a href={item.url}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    <div class="site-content">
+      <slot />
+    </div>
+
+    <footer>
+      <p class="footer__text">{footerText}</p>
+    </footer>
+
+  </body>
+</html>
